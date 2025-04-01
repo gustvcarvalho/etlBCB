@@ -4,6 +4,6 @@ from src.load import salvarCsv
 
 dadosBcb = requestApiBcb('20191')
 
-salvarCsv(dadosBcb, "src/datasets/meiosPagamentosTri.csv", ";", ".")
+salvarCsv(dadosBcb, "etlBCB/src/datasets/meiosPagamentosTri.csv", ";", ".")
 #print(dadosBcb)
 #dadosBcb.to_csv("meiosPagamentosTri.csv", sep=';', decimal='.')
