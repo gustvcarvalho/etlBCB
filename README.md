@@ -57,3 +57,13 @@ Conjunto de informações sobre operações com cartões de pagamento e de trans
 | quantidadeSaques             | decimal  | Quantidade de Saque           | Quantidade (em milhares) de saques realizados nos caixas eletrônicos trimestralmente.                              |
 
 
+
+Entrar no MySQL Workbench
+
+1. Criar um novo esquema
+2. Nomear para etlbcb
+
+
+SLIDES (instalar bibliotecas/terminal)
+
+
