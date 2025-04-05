@@ -58,12 +58,3 @@ Conjunto de informações sobre operações com cartões de pagamento e de trans
 
 
 
-Entrar no MySQL Workbench
-
-1. Criar um novo esquema
-2. Nomear para etlbcb
-
-
-SLIDES (instalar bibliotecas/terminal)
-
-
