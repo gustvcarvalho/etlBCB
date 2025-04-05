@@ -36,8 +36,5 @@ def requestApiBcb(
     return df
 
 
-dadosBCB = requestApiBcb('20191')
-
-print(dadosBCB)
 
 
