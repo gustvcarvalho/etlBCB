@@ -21,13 +21,13 @@ def requestApiBcb(
 
     req = requests.get(url) #Faz a requisição GET para a URL da API do Banco Central
 
-    #print(req.status_code) #Retorna o código de status da requisição (200 = sucesso, 404 = não encontrado, etc.)
+    print(req.status_code) #Retorna o código de status da requisição (200 = sucesso, 404 = não encontrado, etc.)
     
-    #print(req.json()) #Retorna o conteúdo da resposta em formato JSON (dados crus)
+    print(req.json()) #Retorna o conteúdo da resposta em formato JSON (dados crus)
     
     dados = req.json() #Converte o conteúdo JSON em um dicionário Python
 
-    #print(dados) #Exibe o dicionário Python
+    print(dados) #Exibe o dicionário Python
 
     df = pd.json_normalize(dados["value"]) #Converte o dicionário em um DataFrame do pandas, normalizando os dados aninhados
     

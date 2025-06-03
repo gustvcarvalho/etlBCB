@@ -1,140 +1,138 @@
-# ETL com dados do Banco Central - Projeto de Data Science
+# 📊 Análise de Meios de Pagamento no Brasil — Projeto Data Science (2025.2)
 
-Durante o semestre 2025.2, desenvolvi este projeto como parte da disciplina de Data Science no curso de Análise e Desenvolvimento de Sistemas do Senac-PE, sob a orientação do professor Marcos Mialaret.
+Este projeto foi desenvolvido como parte da disciplina de Data Science do curso de Análise e Desenvolvimento de Sistemas do Senac-PE, sob orientação do professor Marcos Mialaret, no semestre 2025.2.
 
-O objetivo do projeto foi praticar e aprofundar conceitos de ETL (Extract, Transform, Load) utilizando dados reais de meios de pagamento trimestrais fornecidos pela API do Banco Central do Brasil, incluindo informações sobre PIX, cartões, entre outros.
+O foco principal foi construir um pipeline de ETL (Extract, Transform, Load) utilizando Python e dados abertos do Banco Central do Brasil, com o objetivo de entender a evolução trimestral de meios de pagamento como PIX, cartões, boletos e outros, além de aplicar técnicas de modelagem preditiva e visualização.
 
----
+## 📁 Estrutura do Projeto
 
-## Tecnologias e Ferramentas
+```
+ETLBCB/
+├── assets/                  # Dashboards
+├── materials/               # Slides da aula e material de apoio
+├── notebooks/               # Jupyter Notebooks com as análises
+├── reports/powerbi/        # Análises Power BI
+├── src/                    # Código-fonte principal do projeto
+│   ├── datasets/           # Arquivos de dados brutos e processados
+│   ├── extractTransform.py # Extração e transformação dos dados
+│   ├── load.py             # Carregamento dos dados
+├── main.py                 # Script principal de execução
+├── requirements.txt        # Bibliotecas Python necessárias
+├── README.md               # Este arquivo
+```
 
-- **Linguagem:** Python 3.x  
-- **Bibliotecas:** pandas, requests, sqlalchemy, sqlite3, pymysql  
-- **Ambiente virtual:** venv  
-- **Banco de dados:** SQLite (local) e MySQL (opcional)  
-- **Outros:** Jupyter Notebooks para análise exploratória e relatórios  
+## 🚀 Tecnologias Utilizadas
 
----
+- Python 3.x
+- pandas, numpy
+- matplotlib, seaborn
+- scikit-learn, prophet
+- SQLite
+- Power BI
+- Jupyter Notebook
 
-## Estrutura do Repositório
+## 📊 Fontes de Dados
 
-├── aulas/ # Material e exercícios introdutórios sobre pandas
-├── src/ # Código-fonte do projeto
-│ ├── init.py
-│ ├── pycash.py # Funções de Extract e Transform
-│ ├── load.py # Funções para salvar dados em CSV, SQLite e MySQL
-│ └── datasets/ # Dados transformados e base para carga
-├── notebooks/ # Jupyter Notebooks com análises e relatórios
-│ ├── uso_cartoes.ipynb
-│ └── analise_pix.ipynb
-├── .gitignore
-├── LICENSE
-├── requirements.txt # Dependências do projeto
-├── README.md # Este arquivo
-└── venv/ # Ambiente virtual (não versionado)
+Os dados foram obtidos por meio da [API do Banco Central do Brasil (BCB)](https://dadosabertos.bcb.gov.br/), especificamente do conjunto **Meios de Pagamento Trimestrais**, que contém informações sobre:
 
+- Transações com Pix, boletos, cartões (crédito, débito, pré-pago), cheques, TED, DOC, TEC, etc.
+- Volume financeiro (em milhões de reais)
+- Quantidade de transações (em milhares)
 
----
+## 📌 Etapas Desenvolvidas
 
-## Funcionalidades principais
+1. **Coleta de Dados**:
+   - Através da API OData do BCB, com filtros e seleções específicas.
 
-### Extract & Transform
-- A função `requestApiBcb(data: str) -> pd.DataFrame` realiza a extração dos dados da API do Banco Central para um trimestre específico.
-- Os dados extraídos são convertidos em DataFrames pandas e têm suas colunas ajustadas, incluindo conversão de datas.
+2. **ETL** (`src/`):
+   - Scripts `extractTransform.py` e `load.py` realizam a limpeza, transformação e carregamento dos dados.
 
-### Load
-- `salvarCsv()` grava DataFrames em arquivos CSV com separadores e formatos configuráveis.
-- `salvarSQLite()` insere dados em um banco SQLite local.
-- `salvarMySQL()` possibilita carga em banco MySQL remoto, usando SQLAlchemy e pymysql.
+3. **Análise Exploratória** (`notebooks/`):
+   - Identificação de tendências, sazonalidades e mudanças nos meios de pagamento.
 
----
+4. **Modelagem Preditiva**:
+   - Previsões com `Prophet` e `Random Forest` para tendências em pagamentos eletrônicos.
 
-## Como usar
+5. **Relatórios**:
+   - Visualizações em Power BI e gráficos em Jupyter Notebook.
 
-1. Clone este repositório:
+## ▶️ Como Executar o Projeto
 
-```bash
-git clone <URL_DO_REPOSITORIO>
-cd <NOME_DIRETORIO>
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/ETLBCB.git
+   cd ETLBCB
+   ```
 
-2. Crie e ative o ambiente virtual:
-
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-# ou
-venv\Scripts\activate     # Windows
+2. Crie um ambiente virtual:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # Linux/macOS
+   .venv\Scripts\activate   # Windows
+   ```
 
 3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-pip install -r requirements.txt
+4. Execute o script principal:
+   ```bash
+   python main.py
+   ```
 
-4. Execute o script de extração e transformação para obter os dados do trimestre desejado:
+5. Explore os notebooks na pasta `notebooks/`.
 
-from src.pycash import requestApiBcb
-dados = requestApiBcb("20221")  # Exemplo: primeiro trimestre de 2022
-
-5. Salve os dados no formato desejado, por exemplo CSV ou SQLite:
-
-from src.load import salvarCsv, salvarSQLite
-
-salvarCsv(dados, "src/datasets/meiosPagamentosTri.csv", ";", ".")
-salvarSQLite(dados, "src/datasets/etlbcb.db", "meios_pagamentos_tri")
-
-6. Use os notebooks para análises exploratórias e geração de relatórios.
-
-## Considerações finais
-
-Este projeto serviu como uma experiência prática para fixar conceitos de ETL e manipulação de dados com Python e pandas, além de fornecer uma base para aplicações futuras envolvendo integração de APIs e análise de dados financeiros.
-
-## Dicionário de Dados
+## 🗂️ Dicionário de Dados
 
 ### Meios de Pagamentos Trimestrais
+
 Conjunto de informações sobre operações com cartões de pagamento e de transferências de crédito (boletos bancários, cartões de crédito e débito, transferências bancárias). Dados ficam disponíveis 90 dias após o final do trimestre.
 
-### Parâmetros
+### Parâmetros da API
 
-| Nome         | Tipo     | Título   | Descrição                                                                 |
-|--------------|----------|----------|---------------------------------------------------------------------------|
-| trimestre    | texto    | Trimestre| Os dados serão trazidos a partir do tri forn como parâmetro no form AAAAT. |
-| $format      | texto    | $format  | Tipo de conteúdo que será retornado.                                      |
-| $select      | texto    | $select  | Propriedades que serão retornadas.                                        |
-| $filter      | texto    | $filter  | Filtro de seleção de entidades. Exemplo: Nome eq 'João'.                  |
-| $orderby     | texto    | $orderby | Propriedades para ordenação das entidades. Exemplo: Nome asc, Idade desc. |
-| $skip        | inteiro  | $skip    | Índice (maior ou igual a zero) da primeira entidade que será retornada.   |
-| $top         | inteiro  | $top     | Número máximo (maior que zero) de entidades que serão retornadas.        |
+| Nome         | Tipo     | Título   | Descrição |
+|--------------|----------|----------|-----------|
+| trimestre    | texto    | Trimestre| AAAAT (ex: 2023T1) |
+| $format      | texto    | $format  | Tipo de conteúdo retornado |
+| $select      | texto    | $select  | Propriedades desejadas |
+| $filter      | texto    | $filter  | Filtro de entidades |
+| $orderby     | texto    | $orderby | Ordenação |
+| $skip        | inteiro  | $skip    | Índice inicial |
+| $top         | inteiro  | $top     | Nº máx. de registros |
 
+### Campos do Resultado
 
-### Resultado
+| Nome                         | Tipo     | Descrição |
+|------------------------------|----------|-----------|
+| datatrimestre                | texto    | Trimestre (AAAAT) |
+| valorPix                     | decimal  | Volume financeiro de transações Pix (R$ milhões) |
+| valorTED                     | decimal  | Volume TED (R$ milhões) |
+| valorTEC                     | decimal  | Volume TEC (R$ milhões) |
+| valorCheque                  | decimal  | Volume de cheques compensados |
+| valorBoleto                  | decimal  | Volume de boletos compensados |
+| valorDOC                     | decimal  | Volume DOC |
+| valorCartaoCredito           | decimal  | Valor em cartão de crédito |
+| valorCartaoDebito            | decimal  | Valor em cartão de débito |
+| valorCartaoPrePago           | decimal  | Valor em cartão pré-pago |
+| valorTransIntrabancaria      | decimal  | Transferências dentro da mesma instituição |
+| valorConvenios               | decimal  | Arrecadações de convênios |
+| valorDebitoDireto            | decimal  | Débitos autorizados (R$ milhões) |
+| valorSaques                  | decimal  | Saques em caixas eletrônicos |
+| quantidadePix                | decimal  | Quantidade de transações Pix (milhares) |
+| quantidadeTED                | decimal  | Quantidade de TED |
+| quantidadeTEC                | decimal  | Quantidade de TEC |
+| quantidadeCheque             | decimal  | Quantidade de cheques compensados |
+| quantidadeBoleto             | decimal  | Quantidade de boletos compensados |
+| quantidadeDOC                | decimal  | Quantidade DOC |
+| quantidadeCartaoCredito      | decimal  | Qtd. de transações cartão crédito |
+| quantidadeCartaoDebito       | decimal  | Qtd. de transações cartão débito |
+| quantidadeCartaoPrePago      | decimal  | Qtd. de transações cartão pré-pago |
+| quantidadeTransIntrabancaria | decimal  | Qtd. de transferências intrabancárias |
+| quantidadeConvenios          | decimal  | Qtd. de convênios |
+| quantidadeDebitoDireto       | decimal  | Qtd. de débitos diretos |
+| quantidadeSaques             | decimal  | Qtd. de saques |
 
-| Nome                         | Tipo     | Título                        | Descrição                                                                                                           |
-|------------------------------|----------|-------------------------------|---------------------------------------------------------------------------------------------------------------------|
-| datatrimestre                | texto    | Trimestre                     |                                                                                                                     |
-| valorPix                     | decimal  | Valor Pix                     | Volume financeiro (R$ milhões) de transações Pix liquidadas trimestralmente no SPI e fora do SPI, considerando ordens de pagamento e devoluções no período. |
-| valorTED                     | decimal  | Valor TED                     | Montante financeiro (R$ milhões) trimestral transferido por meio de TED.                                           |
-| valorTEC                     | decimal  | Valor TEC                     | Montante financeiro (R$ milhões) trimestral transferido por meio de TEC.                                           |
-| valorCheque                  | decimal  | Valor Cheque                  | Montante financeiro (R$ milhões) de cheques interbancários e intrabancários compensados trimestralmente.           |
-| valorBoleto                  | decimal  | Valor Boleto                  | Montante financeiro (R$ milhões) de boletos interbancários e intrabancários compensados trimestralmente.           |
-| valorDOC                     | decimal  | Valor DOC                     | Montante financeiro (R$ milhões) trimestral transferido por meio de DOC.                                           |
-| valorCartaoCredito           | decimal  | Valor Cartão de Crédito       | Valor (R$ milhões) de transações realizadas com cartão de crédito.                                                 |
-| valorCartaoDebito            | decimal  | Valor Cartão de Débito        | Valor (R$ milhões) de transações realizadas com cartão de débito trimestralmente.                                  |
-| valorCartaoPrePago           | decimal  | Valor Cartão Pré-pago         | Valor (R$ milhões) de transações realizadas com cartão pré-pago trimestralmente.                                    |
-| valorTransIntrabancaria      | decimal  | Valor Transferência Intrabancária | Montante financeiro (R$ milhões) de transferências realizadas trimestralmente entre contas de clientes da Instituição. |
-| valorConvenios               | decimal  | Valor Convênio                | Montante financeiro (R$ milhões) referente a arrecadações trimestrais governamentais e não-governamentais.          |
-| valorDebitoDireto            | decimal  | Valor Débito Direto           | Montante financeiro (R$ milhões) trimestral referente a débitos previamente autorizados pelo cliente em sua conta corrente. |
-| valorSaques                  | decimal  | Valor Saque                   | Montante sacado (R$ milhões) nos caixas eletrônicos trimestralmente.                                                |
-| quantidadePix                | decimal  | Quantidade Pix                | Quantidade (em milhares) de transações Pix liquidadas trimestralmente no SPI e fora do SPI.                        |
-| quantidadeTED                | decimal  | Quantidade TED                | Quantidade (em milhares) de TED realizadas trimestralmente.                                                        |
-| quantidadeTEC                | decimal  | Quantidade TEC                | Quantidade (em milhares) de TEC realizadas trimestralmente.                                                        |
-| quantidadeCheque             | decimal  | Quantidade Cheque             | Quantidade (em milhares) de cheques interbancários e de cheques intrabancários compensados trimestralmente.        |
-| quantidadeBoleto             | decimal  | Quantidade Boleto             | Quantidade (em milhares) de cheques interbancários e intrabancários compensados trimestralmente.                   |
-| quantidadeDOC                | decimal  | Quantidade DOC                | Quantidade (em milhares) de DOC realizados trimestralmente.                                                        |
-| quantidadeCartaoCredito      | decimal  | Quantidade Cartão de Crédito  | Quantidade (em milhares) de transações realizadas com cartão de crédito trimestralmente.                           |
-| quantidadeCartaoDebito       | decimal  | Quantidade Cartão de Débito   | Quantidade (em milhares) de transações realizadas com cartão de débito trimestralmente.                            |
-| quantidadeCartaoPrePago      | decimal  | Quantidade Cartão Pré-pago    | Quantidade (em milhares) de transações realizadas com cartão pré-pago trimestralmente.                             |
-| quantidadeTransIntrabancaria | decimal  | Quantidade de Transferência Intrabancária | Quantidade (em milhares) de transferências realizadas trimestralmente entre contas de clientes da Instituição.    |
-| quantidadeConvenios          | decimal  | Quantidade Convênio           | Quantidade (em milhares) de transações realizadas referentes a arrecadações trimestrais governamentais e não-governamentais. |
-| quantidadeDebitoDireto       | decimal  | Quantidade Débito Direto      | Quantidade (em milhares) de transações trimestrais referente a débitos previamente autorizados pelo cliente.       |
-| quantidadeSaques             | decimal  | Quantidade de Saque           | Quantidade (em milhares) de saques realizados nos caixas eletrônicos trimestralmente.                              |
+---
 
-
-
+Desenvolvido por Gustavo Carvalho · Senac-PE · 2025.2 · Data Science
